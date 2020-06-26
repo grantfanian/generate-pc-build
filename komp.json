@@ -1,0 +1,23 @@
+{
+    "Конфигурация": {
+        "Системный блок": {
+            "Материнская плата": "fotosklad.ru/catalog/materinskaya-plata-gigabyte-b450-aorus-elite-soc-am4-amd-b450-4xddr4-atx-ac-97-8ch-w17-1-gblan-raid-plus-dvi-plus-hdmi-302185.html",
+            "Процессор": "indicator.com.ru/processor-amd-ryzen-x6-r5-3600-sam4-3.6ghz-oem/",
+            "Кулер": "indicator.com.ru/kuler-processornyy-deepcool-gammaxx-300-fury/",
+            "Оперативная память": "dns-shop.ru/product/bb27a3040c623330/",
+            "Видеокарта": "16000",
+            "Жёсткий диск": "indicator.com.ru/zhestkiy-disk-3.5-2-tb-serial-ata-iii-wd-64mb-purple-wd20purz/",
+            "SSD": "indicator.com.ru/tverdotelnyy-nakopitel-ssd-m.2-2280-500-gb-970-evo-plus-mz-v7s500bw-pci-e-samsung/",
+            "Блок питания": "technopoint.ru/product/16db025215003330/",
+            "Корпус": "indicator.com.ru/korpus-zalman-i3-edge-black-wo-psu/"
+        },
+        "Периферия": {
+            "Монитор": "technopoint.ru/product/2a97812b831c3330/",
+            "Клавиатура": "indicator.com.ru/klaviatura-a4tech-bloody-b418-seryy-usb-multimedia-gamer-led/",
+            "Мышь": "technopoint.ru/product/cf015798cefa30b1/"
+        }
+    },
+    "Комментарии": {
+        "Видеокарта": "avito.ru/kemerovo/tovary_dlya_kompyutera/mosch_geforce_gtx_1070_ti_8gb_pochti_kak_gtx_1080_1947732726"
+    }
+}
