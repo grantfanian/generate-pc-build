@@ -60,9 +60,9 @@ names = {"dns-shop": [By.CLASS_NAME, "page-title"],
          "avito": [By.CSS_SELECTOR, ".title-info-title-text"],
          "youla": [By.CSS_SELECTOR, ".sc-fznZeY"],
          "computeruniverse": [By.CSS_SELECTOR, ".product-name"],
-         "nix": [By.CSS_SELECTOR, "span.temp_classH11:nth-child(30)"],
+         "nix": [By.CSS_SELECTOR, "span.temp_classH11:not([style])"], # //*[@id="goods_name"]/span[11]
          "fotosklad": [By.CSS_SELECTOR, 'h1[itemprop=name]'],
-         "citilink": [By.CSS_SELECTOR, ".product_header > h1:nth-child(2)"]}
+         "citilink": [By.CSS_SELECTOR, ".product_header > h1:nth-child(2)"]}  
 prices["technopoint"], names["technopoint"] = [i["dns-shop"]
                                                for i in [prices, names]]
 prices_out = []
@@ -143,6 +143,8 @@ def getId(prices, namm):
             pass
         except KeyError:
             pass
+        except ValueError:
+            pass
     return False
 
 
@@ -212,6 +214,7 @@ for i in list(a.keys()):
             # driver.refresh()
             # time.sleep(3)
             # bs = bs4(driver.page_source)
+            wait.until(prec(names[now[1]]))
             name = driver.find_element(
                 *(names[now[1]])).text.strip()
             name_parsed2 = name if type(a[i][ii]) == type(
