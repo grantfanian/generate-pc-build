@@ -25,9 +25,12 @@ parser.add_argument(
     "-o", "--out", help="путь для JSON-файла с выводом (по умолчанию: не выводить в JSON)")
 parser.add_argument(
     "-g", "--graph", help="путь для JSON-файла с выводом данных для построения графика (по умолчанию: не выводить)")
+parser.add_argument("-n", "--no-headless",
+                    help="запускать браузер не в фоне", action="store_true")
 args = parser.parse_args()
 # from bs4 import BeautifulSoup as bs4
 # from lxml.html.soupparser import fromstring as bs4
+pricc = {"None": 0}
 
 
 def su(*args):
@@ -52,7 +55,10 @@ prices = {"dns-shop": [By.CLASS_NAME, "current-price-value"],
           "computeruniverse": [By.CSS_SELECTOR, ".product-price"],
           "nix": [By.CSS_SELECTOR, "div.price"],
           "fotosklad": [By.CSS_SELECTOR, 'meta[itemprop=price]'],
-          "citilink": [By.CSS_SELECTOR, "div.price > ins:nth-child(1)"]}
+          "citilink": [By.CSS_SELECTOR, "div.price > ins:nth-child(1)"],
+          "coolera": [By.CSS_SELECTOR, "body > div.main > div.cont > div > div.tphoto > div:nth-child(7) > form > div:nth-child(1)"],
+          "os-com": [By.CSS_SELECTOR, ".ty-price[id^=line_discounted_price_]"]
+          }
 names = {"dns-shop": [By.CLASS_NAME, "page-title"],
          "indicator": [By.CLASS_NAME, "ty-product-block-title"],
          "regard": [By.XPATH, '//*[@id="goods_head"]'],
@@ -60,9 +66,13 @@ names = {"dns-shop": [By.CLASS_NAME, "page-title"],
          "avito": [By.CSS_SELECTOR, ".title-info-title-text"],
          "youla": [By.CSS_SELECTOR, ".sc-fznZeY"],
          "computeruniverse": [By.CSS_SELECTOR, ".product-name"],
-         "nix": [By.CSS_SELECTOR, "span.temp_classH11:not([style])"], # //*[@id="goods_name"]/span[11]
+         "nix": [By.CSS_SELECTOR, "span.temp_classH11:nth-child(30)"],
          "fotosklad": [By.CSS_SELECTOR, 'h1[itemprop=name]'],
-         "citilink": [By.CSS_SELECTOR, ".product_header > h1:nth-child(2)"]}  
+         "citilink": [By.CSS_SELECTOR, ".product_header > h1:nth-child(2)"],
+         "nix": [By.CSS_SELECTOR, "span.temp_classH11:not([style])"],
+         "coolera": [By.CSS_SELECTOR, "body > div.main > div.cont > div > h3"],
+         "os-com": [By.CSS_SELECTOR, ".ut2-pb__title"]
+         }
 prices["technopoint"], names["technopoint"] = [i["dns-shop"]
                                                for i in [prices, names]]
 prices_out = []
@@ -123,7 +133,8 @@ caps["pageLoadStrategy"] = "normal"
 namm = ""
 opts = Options()
 opts.set_preference("permissions.default.image", 2)
-opts.headless = True
+if not args.no_headless:
+    opts.headless = True
 # profile = webdriver.FirefoxProfile(os.path.join(os.getcwd(), "lol"))
 """
 profile = webdriver.FirefoxProfile()
@@ -167,14 +178,19 @@ for i in list(a.keys()):
             now = [urlparse(a[i][ii] if type(a[i][ii]) == type("") else a[i][ii][0], "https").geturl().replace(
                 "///", "//"), getId(prices, namm)]
             out["Конфигурация"][i][ii].append(now[0])
-            driver.get(now[0])
+            try:
+                driver.get(now[0])
+            except:
+                now[0] = now[0].replace("https://", "http://")
+                driver.get(now[0])
             # (now[1] == "dns-shop") and (not (now[1] in done_shops)):
             if (now[1] in ["dns-shop", "technopoint"]) and not_done[now[1]]:
                 time.sleep(0.2)
                 wait.until(
-                    prec((By.CSS_SELECTOR, "div.city-select")))
+                    prec((By.CSS_SELECTOR, "body > header > div.header-top > div > ul.header-top-menu__common-list > li:nth-child(1) > div > div")))
                 time.sleep(0.2)
-                aaasd = driver.find_element(By.CSS_SELECTOR, ".city-select")
+                aaasd = driver.find_element(
+                    By.CSS_SELECTOR, "body > header > div.header-top > div > ul.header-top-menu__common-list > li:nth-child(1) > div > div")
                 aaasd.click()
                 wait.until(
                     prec((By.CSS_SELECTOR, 'input.form-control')))
@@ -245,13 +261,16 @@ for i in list(a.keys()):
                     price = pric.text.strip()
                 price_parsed2 = str(int(float(".".join(re.findall(
                     r'(?:[\d](?:.?=[A-zА-яЁё]||\.))+', "".join(price.split(" "))))))*(a[i][ii][1] if type(a[i][ii]) == type([]) else 1))
-                price_parsed = price_parsed2+" рублей"
+                price_parsed = (price_parsed2+" рублей") if type(a[i][ii]) != type([]) else (str(int(float(".".join(re.findall(
+                    r'(?:[\d](?:.?=[A-zА-яЁё]||\.))+', "".join(price.split(" ")))))))+"x"+str(a[i][ii][1])+f" ({price_parsed2})")
             print(f"-- {rd}{price_parsed}{sr}.")
             out["Конфигурация"][i][ii].append(price_parsed)
             out["Конфигурация"][i][ii].append(int(price_parsed2))
             prices_out.append(int(price_parsed2))
             done_shops.append(now[1])
             # time.sleep(5)
+    pricc[i] = sum(prices_out)-sum(list(pricc.values()))
+    print(f" Итого (цена) [{gr}{i}{sr}] -- {rd}{pricc[i]}{sr}.")
 driver.quit()
 summm = sum(prices_out)
 itogo = f"Итого (цена): {rd}{summm} рублей{sr}, {round(summm*rates[1],2)} долларов, {round(summm*rates[0],2)} евро."
