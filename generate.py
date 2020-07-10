@@ -57,7 +57,8 @@ prices = {"dns-shop": [By.CLASS_NAME, "current-price-value"],
           "fotosklad": [By.CSS_SELECTOR, 'meta[itemprop=price]'],
           "citilink": [By.CSS_SELECTOR, "div.price > ins:nth-child(1)"],
           "coolera": [By.CSS_SELECTOR, "body > div.main > div.cont > div > div.tphoto > div:nth-child(7) > form > div:nth-child(1)"],
-          "os-com": [By.CSS_SELECTOR, ".ty-price[id^=line_discounted_price_]"]
+          "os-com": [By.CSS_SELECTOR, ".ty-price[id^=line_discounted_price_]"],
+          "nwht":[By.CSS_SELECTOR,".price_value"]
           }
 names = {"dns-shop": [By.CLASS_NAME, "page-title"],
          "indicator": [By.CLASS_NAME, "ty-product-block-title"],
@@ -71,7 +72,8 @@ names = {"dns-shop": [By.CLASS_NAME, "page-title"],
          "citilink": [By.CSS_SELECTOR, ".product_header > h1:nth-child(2)"],
          "nix": [By.CSS_SELECTOR, "span.temp_classH11:not([style])"],
          "coolera": [By.CSS_SELECTOR, "body > div.main > div.cont > div > h3"],
-         "os-com": [By.CSS_SELECTOR, ".ut2-pb__title"]
+         "os-com": [By.CSS_SELECTOR, ".ut2-pb__title"],
+         "nwht":[By.CSS_SELECTOR,"h1[id=pagetitle]"]
          }
 prices["technopoint"], names["technopoint"] = [i["dns-shop"]
                                                for i in [prices, names]]
