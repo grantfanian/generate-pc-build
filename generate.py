@@ -16,6 +16,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support.expected_conditions import presence_of_element_located as prec
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.action_chains import ActionChains
+import selenium
 import argparse
 parser = argparse.ArgumentParser(
     description="вывести названия и цены товаров по ссылкам и посчитать общую цену.")
@@ -52,14 +53,15 @@ prices = {"dns-shop": [By.CLASS_NAME, "current-price-value"],
           "123": [By.CSS_SELECTOR, ".pc-mb-price"],
           "avito": [By.CSS_SELECTOR, ".price-value_side-card > span:nth-child(1) > span:nth-child(1)"],
           "youla": [By.CSS_SELECTOR, ".sc-qQKPx"],
-          "computeruniverse": [By.CSS_SELECTOR, ".product-price"],
-          "nix": [By.CSS_SELECTOR, "div.price"],
+          "computeruniverse": [By.CSS_SELECTOR, "span.at__altcurrencyvalue:nth-child(4) > font:nth-child(1)"],
+          "nix": [By.CSS_SELECTOR, ".price > span"],
           "fotosklad": [By.CSS_SELECTOR, 'meta[itemprop=price]'],
           "citilink": [By.CSS_SELECTOR, "div.price > ins:nth-child(1)"],
-          "coolera": [By.CSS_SELECTOR, "body > div.main > div.cont > div > div.tphoto > div:nth-child(7) > form > div:nth-child(1)"],
+          "coolera": [By.CSS_SELECTOR, 'form[action="case.php"]:nth-child(1)'],
           "os-com": [By.CSS_SELECTOR, ".ty-price[id^=line_discounted_price_]"],
-          "nwht":[By.CSS_SELECTOR,".price_value"]
-          }
+          "nwht": [By.CSS_SELECTOR, ".price_value"],
+          "computermarket": [By.CSS_SELECTOR, "div[class='cnt-price add-tovar cf']"],
+          "beru": [By.CSS_SELECTOR, 'div[data-auto="price"]>span>span:not([data-auto="currency"])']}
 names = {"dns-shop": [By.CLASS_NAME, "page-title"],
          "indicator": [By.CLASS_NAME, "ty-product-block-title"],
          "regard": [By.XPATH, '//*[@id="goods_head"]'],
@@ -71,9 +73,11 @@ names = {"dns-shop": [By.CLASS_NAME, "page-title"],
          "fotosklad": [By.CSS_SELECTOR, 'h1[itemprop=name]'],
          "citilink": [By.CSS_SELECTOR, ".product_header > h1:nth-child(2)"],
          "nix": [By.CSS_SELECTOR, "span.temp_classH11:not([style])"],
-         "coolera": [By.CSS_SELECTOR, "body > div.main > div.cont > div > h3"],
+         "coolera": [By.CSS_SELECTOR, 'body > div.main > div.cont > div > h3'],
          "os-com": [By.CSS_SELECTOR, ".ut2-pb__title"],
-         "nwht":[By.CSS_SELECTOR,"h1[id=pagetitle]"]
+         "nwht": [By.CSS_SELECTOR, "h1[id=pagetitle]"],
+         "computermarket": [By.CSS_SELECTOR, '.product-name > h1:nth-child(1)'],
+         "beru": [By.CSS_SELECTOR, 'div[data-zone-name="summary"]>div>div>div>div>div>h1']
          }
 prices["technopoint"], names["technopoint"] = [i["dns-shop"]
                                                for i in [prices, names]]
@@ -243,8 +247,8 @@ for i in list(a.keys()):
             print(
                 f"{ye}{' '.join(name_parsed)}{sr}", end=" ")
             out["Конфигурация"][i][ii].append(name_parsed)
-            price = driver.find_element(
-                *(prices[now[1]])).text.strip()
+
+            """
             if now[1] == "computeruniverse":
                 pric = driver.find_element(
                     *(prices[now[1]])).get_attribute('innerHTML')
@@ -264,7 +268,25 @@ for i in list(a.keys()):
                 price_parsed2 = str(int(float(".".join(re.findall(
                     r'(?:[\d](?:.?=[A-zА-яЁё]||\.))+', "".join(price.split(" "))))))*(a[i][ii][1] if type(a[i][ii]) == type([]) else 1))
                 price_parsed = (price_parsed2+" рублей") if type(a[i][ii]) != type([]) else (str(int(float(".".join(re.findall(
-                    r'(?:[\d](?:.?=[A-zА-яЁё]||\.))+', "".join(price.split(" ")))))))+"x"+str(a[i][ii][1])+f" ({price_parsed2})")
+                    r'(?:[\d](?:.?=[A-zА-яЁё]||\.))+', "".join(price.split(" ")))))))+"x"+str(a[i][ii][1])+f" ({price_parsed2})")"""
+            try:
+                price = driver.find_element(
+                    *(prices[now[1]])).text.strip()
+                pric = driver.find_element(*(prices[now[1]]))
+            except:
+                pass
+            """    pric = driver.find_element(
+                    By.CSS_SELECTOR, ".at__prices > div:nth-child(6) > span:nth-child(1) > font:nth-child(1)")
+            tag = re.findall(
+                r"<(.*?)\ ", pric.get_attribute("outerHTML"))[0]
+            if tag == "meta":
+                price = pric.get_attribute("content").strip()"""
+            if True:  # else
+                price = pric.text.strip().replace(",", ".")
+            price_parsed2 = str(int(float(".".join(re.findall(
+                r'(?:[\d](?:.?=[A-zА-яЁё]||\.))+', "".join(price.split(" "))))))*(a[i][ii][1] if type(a[i][ii]) == type([]) else 1))
+            price_parsed = (price_parsed2+" рублей") if type(a[i][ii]) != type([]) else (str(int(float(".".join(re.findall(
+                r'(?:[\d](?:.?=[A-zА-яЁё]||\.))+', "".join(price.split(" ")))))))+"x"+str(a[i][ii][1])+f" ({price_parsed2})")
             print(f"-- {rd}{price_parsed}{sr}.")
             out["Конфигурация"][i][ii].append(price_parsed)
             out["Конфигурация"][i][ii].append(int(price_parsed2))
