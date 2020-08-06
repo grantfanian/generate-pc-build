@@ -1,20 +1,19 @@
 {
     "Конфигурация": {
         "Системный блок": {
-            "Материнская плата": "technopoint.ru/product/05c037f493a23330/materinskaa-plata-asrock-b450-pro4-sale/",
-            "Процессор": "indicator.com.ru/processor-amd-ryzen-x6-r5-3600-sam4-3.6ghz-oem/",
+            "Материнская плата": "computeruniverse.net/msi-b450-a-pro-max",
+            "Процессор": "computeruniverse.net/ru/amd-ryzen-5-3600-boxed-inkl-wraith-stealth-kuehler",
             "Кулер": "sevastopol.nix.ru/autocatalog/deepcool/DEEPCOOL-DPGS-MCH6N-LC-V2AM4-LUCIFER-V2-4pin-775-1155-1366-2011-AM2-FM2-AM4-126-311dB-300-1400ob-min-Al-plus-ttrub_346013.html",
-            "Термопаста": "sevastopol.nix.ru/autocatalog/thermal_compound/Arctic-Cooling-MX-4-8g-Termopasta-8-g_398999.html",
-            "Оперативная память": "sevastopol.nix.ru/autocatalog/memory_modules_GSkil/GSkill-RipjawsV-F4-3200C16D-16GVKB-DDR4-DIMM-16Gb-KIT-2-8Gb-PC4-25600-CL16_408055.html",
+            "Термопаста": "computeruniverse.net/arctic-mx-4-2019-edition-waermeleitpaste-8g",
+            "Оперативная память": "computeruniverse.net/ru/gskill-ripjaws-v-16gb-ddr4-k2-ram-4",
             "Видеокарта": "15000",
             "Жёсткий диск": "indicator.com.ru/zhestkiy-disk-3.5-2-tb-7200-serial-ata-iii-seagate-256-mb-st2000dm008/",
-            "SSD": "sevastopol.nix.ru/autocatalog/ssd_a_data/SSD-512-Gb-M2-2280-M-ADATA-XPG-GAMMIX-S11-Pro-AGAMMIXS11P-512GT-C-3D-TLC_413368.html",
-            "Блок питания": "sevastopol.nix.ru/autocatalog/power_supply_chieftec/Blok-pitaniya-Chieftec-iARENA-GPC-700S-700W-ATX-24-plus-2x4-plus-2x6-8pin_273847.html",
-            "Корпус": "sevastopol.nix.ru/autocatalog/cases_deepcool/Miditower-Deepcool-MATREXX-55-MESH-DP-ATX-MATREXX55-MESH-Black-E-ATX-bez-BP_442703.html",
-            "Корпусные вентиляторы": [
-                "sevastopol.nix.ru/autocatalog/arctic_cooling/Arctic-P12-PWM-PST-black-transparent-4pin-120x120x25mm-200-1800ob-min_392962.html",
-                3
-            ]
+            "SSD": "computeruniverse.net/adata-xpg-gammix-s11-pro-512-gb",
+            "Блок питания": "computeruniverse.net/cooler-master-mwe-v2-bronze-white-edition-600-watt",
+            "Корпус": "regard.ru/catalog/tovar337132.htm"
+        },
+        "Корпусные вентиляторы": {
+            "Все": "dns-shop.ru/product/e42d7166eec91b80"
         },
         "Периферия": {
             "Монитор": "technopoint.ru/product/2a97812b831c3330/",
@@ -30,6 +29,7 @@
         "Мышь": "technopoint.ru/product/cf015798cefa30b1/",
         "Оперативная память": "dns-shop.ru/product/bb27a3040c623330/",
         "Блок питания": "technopoint.ru/product/16db025215003330/",
-        "Блок питания2": "beru.ru/product/blok-pitaniia-cooler-master-mwe-bronze-600-v2-600w/651835491"
+        "Блок питания2": "beru.ru/product/blok-pitaniia-cooler-master-mwe-bronze-600-v2-600w/651835491",
+        "Корпусный вентилятор": "sevastopol.nix.ru/autocatalog/arctic_cooling/Arctic-P12-PWM-PST-black-transparent-4pin-120x120x25mm-200-1800ob-min_392962.html"
     }
 }
