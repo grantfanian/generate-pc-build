@@ -47,13 +47,13 @@ prices = {"dns": ["span", {"class": "current-price-value", "data-role": "current
 names = {"dns": ["h1", {"class": "page-title price-item-title"}],
          "indicator": ["h1", {"class": "ty-product-block-title"}]}
 """
-prices = {"dns-shop": [By.CLASS_NAME, "current-price-value"],
-          "indicator": [By.CLASS_NAME, "new-price"],
+prices = {"dns-shop": [By.CSS_SELECTOR, "span.product-card-price__current"],
+          "indicator": [By.CSS_SELECTOR, ".new-price"],
           "regard": [By.CSS_SELECTOR, "span.price"],
           "123": [By.CSS_SELECTOR, ".pc-mb-price"],
           "avito": [By.CSS_SELECTOR, ".price-value_side-card > span:nth-child(1) > span:nth-child(1)"],
           "youla": [By.CSS_SELECTOR, ".sc-qQKPx"],
-          "computeruniverse": [By.CSS_SELECTOR, "span.at__altcurrencyvalue:nth-child(4) > font:nth-child(1)"],
+          "computeruniverse": [By.CSS_SELECTOR, 'div[class="prices at__prices"]>div:not([class])>span,div[class="prices at__prices"]>span[class="at__altcurrencyvalue"]>font'],
           "nix": [By.CSS_SELECTOR, ".price > span"],
           "fotosklad": [By.CSS_SELECTOR, 'meta[itemprop=price]'],
           "citilink": [By.CSS_SELECTOR, "div.price > ins:nth-child(1)"],
@@ -62,9 +62,9 @@ prices = {"dns-shop": [By.CLASS_NAME, "current-price-value"],
           "nwht": [By.CSS_SELECTOR, ".price_value"],
           "computermarket": [By.CSS_SELECTOR, "div[class='cnt-price add-tovar cf']"],
           "beru": [By.CSS_SELECTOR, 'div[data-auto="price"]>span>span:not([data-auto="currency"])']}
-names = {"dns-shop": [By.CLASS_NAME, "page-title"],
-         "indicator": [By.CLASS_NAME, "ty-product-block-title"],
-         "regard": [By.XPATH, '//*[@id="goods_head"]'],
+names = {"dns-shop": [By.CSS_SELECTOR, ".page-title"],
+         "indicator": [By.CSS_SELECTOR, ".ty-product-block-title"],
+         "regard": [By.CSS_SELECTOR, '[id="goods_head"]'],
          "123": [By.CSS_SELECTOR, "h1.hidden-xs"],
          "avito": [By.CSS_SELECTOR, ".title-info-title-text"],
          "youla": [By.CSS_SELECTOR, ".sc-fznZeY"],
@@ -236,7 +236,9 @@ for i in list(a.keys()):
             # driver.refresh()
             # time.sleep(3)
             # bs = bs4(driver.page_source)
-            wait.until(prec(names[now[1]]))
+            if now[1] in ["dns-shop", "technopoint"]:
+                time.sleep(5)
+            # wait.until(prec(tuple(prices[now[1]])))
             name = driver.find_element(
                 *(names[now[1]])).text.strip()
             name_parsed2 = name if type(a[i][ii]) == type(
@@ -269,12 +271,9 @@ for i in list(a.keys()):
                     r'(?:[\d](?:.?=[A-zА-яЁё]||\.))+', "".join(price.split(" "))))))*(a[i][ii][1] if type(a[i][ii]) == type([]) else 1))
                 price_parsed = (price_parsed2+" рублей") if type(a[i][ii]) != type([]) else (str(int(float(".".join(re.findall(
                     r'(?:[\d](?:.?=[A-zА-яЁё]||\.))+', "".join(price.split(" ")))))))+"x"+str(a[i][ii][1])+f" ({price_parsed2})")"""
-            try:
-                price = driver.find_element(
-                    *(prices[now[1]])).text.strip()
-                pric = driver.find_element(*(prices[now[1]]))
-            except:
-                pass
+            price = driver.find_element(
+                *(prices[now[1]])).text.strip()
+            pric = driver.find_element(*(prices[now[1]]))
             """    pric = driver.find_element(
                     By.CSS_SELECTOR, ".at__prices > div:nth-child(6) > span:nth-child(1) > font:nth-child(1)")
             tag = re.findall(
@@ -320,7 +319,8 @@ if args.graph:
             graphdata, indent=2, ensure_ascii=False).encode("utf-8"))
 if args.out:
     try:
-        with open(args.out, "w") as file:
-            json.dumps(out, file, indent=2, ensure_ascii=False)
+        with open(args.out, "wb") as file:
+            file.write(json.dumps(out, indent=2,
+                                  ensure_ascii=False).encode("utf-8"))
     except PermissionError as e:
         raise PermissionError(e, "Недостаточно прав для записи в файл вывода.")
